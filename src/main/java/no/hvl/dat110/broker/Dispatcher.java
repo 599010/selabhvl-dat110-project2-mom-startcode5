@@ -107,56 +107,41 @@ public class Dispatcher extends Stopable {
 	}
 
 	public void onCreateTopic(CreateTopicMsg msg) {
-
-		Logger.log("onCreateTopic:" + msg.toString());
-
-		// TODO: create the topic in the broker storage
-		// the topic is contained in the create topic message
-
-		throw new UnsupportedOperationException(TODO.method());
-
+	    String topic = msg.getTopic();
+	    storage.createTopic(topic);
+	    Logger.log("Topic created: " + topic);
 	}
 
 	public void onDeleteTopic(DeleteTopicMsg msg) {
-
-		Logger.log("onDeleteTopic:" + msg.toString());
-
-		// TODO: delete the topic from the broker storage
-		// the topic is contained in the delete topic message
-		
-		throw new UnsupportedOperationException(TODO.method());
+	    String topic = msg.getTopic();
+	    storage.deleteTopic(topic);
+	    Logger.log("Topic deleted: " + topic);
 	}
 
 	public void onSubscribe(SubscribeMsg msg) {
-
-		Logger.log("onSubscribe:" + msg.toString());
-
-		// TODO: subscribe user to the topic
-		// user and topic is contained in the subscribe message
-		
-		throw new UnsupportedOperationException(TODO.method());
-
+	    String user = msg.getUser();
+	    String topic = msg.getTopic();
+	    storage.addSubscriber(user, topic);
+	    Logger.log(user + " subscribed to " + topic);
 	}
 
 	public void onUnsubscribe(UnsubscribeMsg msg) {
-
-		Logger.log("onUnsubscribe:" + msg.toString());
-
-		// TODO: unsubscribe user to the topic
-		// user and topic is contained in the unsubscribe message
-		
-		throw new UnsupportedOperationException(TODO.method());
+	    String user = msg.getUser();
+	    String topic = msg.getTopic();
+	    storage.removeSubscriber(user, topic);
+	    Logger.log(user + " unsubscribed from " + topic);
 	}
 
 	public void onPublish(PublishMsg msg) {
-
-		Logger.log("onPublish:" + msg.toString());
-
-		// TODO: publish the message to clients subscribed to the topic
-		// topic and message is contained in the subscribe message
-		// messages must be sent using the corresponding client session objects
-		
-		throw new UnsupportedOperationException(TODO.method());
-
+	    String topic = msg.getTopic();
+	    String message = msg.getMessage();
+	    Set<String> subscribers = storage.getSubscribers(topic);
+	    for (String subscriber : subscribers) {
+	        ClientSession session = storage.getSession(subscriber);
+	        if (session != null) {
+	            session.send(msg); // Send the message to the subscriber
+	            Logger.log("Published message to " + subscriber + " on topic " + topic + ": " + message);
+	        }
+	    }
 	}
 }
