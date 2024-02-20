@@ -2,7 +2,7 @@ package no.hvl.dat110.messages;
 
 public class CreateTopicMsg extends Message {
     
-    private String topic; // Removed the 'user' field, will use 'user' from Message
+    private String topic; 
 
     public CreateTopicMsg(String user, String topic) {
         super(MessageType.CREATETOPIC, user);
@@ -20,7 +20,7 @@ public class CreateTopicMsg extends Message {
     @Override
     public String toString() {
         return "CreateTopicMsg{" +
-                "user='" + getUser() + '\'' + // Use getUser() method from Message class
+                "user='" + getUser() + '\'' + // Bruker getUser() metode fa Message classen
                 ", topic='" + topic + '\'' +
                 '}';
     }

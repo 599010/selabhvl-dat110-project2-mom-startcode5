@@ -34,8 +34,7 @@ public class Storage {
 
 	}
 
-	// get the session object for a given user
-	// session object can be used to send a message to the user
+
 	
 	public ClientSession getSession(String user) {
 
@@ -58,8 +57,8 @@ public class Storage {
 	public void removeClientSession(String user) {
 	    ClientSession session = clients.get(user);
 	    if (session != null) {
-	        session.disconnect(); // Disconnect the client
-	        clients.remove(user); // Remove the client session
+	        session.disconnect(); 
+	        clients.remove(user); 
 	    }
 	}
 

@@ -95,7 +95,7 @@ public class Dispatcher extends Stopable {
 
 	}
 
-	// called by dispatch upon receiving a disconnect message
+	
 	public void onDisconnect(DisconnectMsg msg) {
 
 		String user = msg.getUser();
@@ -139,7 +139,7 @@ public class Dispatcher extends Stopable {
 	    for (String subscriber : subscribers) {
 	        ClientSession session = storage.getSession(subscriber);
 	        if (session != null) {
-	            session.send(msg); // Send the message to the subscriber
+	            session.send(msg); 
 	            Logger.log("Published message to " + subscriber + " on topic " + topic + ": " + message);
 	        }
 	    }
